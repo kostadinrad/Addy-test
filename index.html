@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addy's Hot-Crazy Matrix</title>
+    <!-- Include Chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            text-align: center; 
+            background-color: #fafafa;
+            color: #333;
+        }
+        .description { 
+            text-align: left; 
+            margin: 20px 0; 
+            line-height: 1.6; 
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .controls { 
+            margin: 20px 0; 
+            padding: 20px; 
+            background: #fff; 
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        }
+        input { 
+            margin: 0 15px 0 5px; 
+            padding: 8px; 
+            width: 60px; 
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button { 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            font-weight: bold;
+        }
+        button:hover { 
+            background: #0056b3; 
+        }
+        .chart-container { 
+            position: relative; 
+            height: 400px; 
+            width: 100%; 
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Addy's Hot-Crazy Matrix</h1>
+    
+    <div class="description">
+        <h3>About Addy's Evaluation</h3>
+        <p>This interactive chart evaluates <strong>Addy</strong> based on the universally recognized <em>Hot-Crazy Matrix</em>. The X-axis represents the "Hot" scale (ranging from 0 to 10), while the Y-axis represents the "Crazy" scale (also 0 to 10).</p>
+        <p>Ideally, an individual's "Hot" score should outweigh their "Crazy" score. The dashed line on the chart represents the theoretical boundary where Hot equals Crazy. Adjust the inputs below to plot exactly where Addy currently stands on the matrix.</p>
+    </div>
+
+    <div class="controls">
+        <label for="hotInput"><strong>Hot</strong> (0-10):</label>
+        <input type="number" id="hotInput" min="0" max="10" step="0.5" value="8">
+
+        <label for="crazyInput"><strong>Crazy</strong> (0-10):</label>
+        <input type="number" id="crazyInput" min="0" max="10" step="0.5" value="5">
+
+        <button onclick="updateChart()">Plot Addy</button>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="hotCrazyChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('hotCrazyChart').getContext('2d');
+        
+        // Initialize the Chart.js scatter plot
+        let hotCrazyChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: 'Addy',
+                        data: [{ x: 8, y: 5 }],
+                        backgroundColor: '#ff0055',
+                        pointRadius: 10,
+                        pointHoverRadius: 13
+                    },
+                    {
+                        label: 'The "Equilibrium" Diagonal',
+                        data: [{ x: 0, y: 0 }, { x: 10, y: 10 }],
+                        type: 'line',
+                        borderColor: '#007bff',
+                        borderWidth: 2,
+                        borderDash: [5, 5], // Makes the line dashed
+                        fill: false,
+                        pointRadius: 0,
+                        pointHoverRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: { display: true, text: 'Hot Scale (0 - 10)', font: { size: 14, weight: 'bold' } },
+                        min: 0,
+                        max: 10
+                    },
+                    y: {
+                        type: 'linear',
+                        title: { display: true, text: 'Crazy Scale (0 - 10)', font: { size: 14, weight: 'bold' } },
+                        min: 0,
+                        max: 10
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                if (context.datasetIndex === 0) {
+                                    return `Addy: Hot ${context.parsed.x}, Crazy ${context.parsed.y}`;
+                                }
+                                return '1:1 Hot-to-Crazy Ratio';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Function to update the chart when the button is clicked
+        function updateChart() {
+            // Get values from inputs
+            let hotVal = parseFloat(document.getElementById('hotInput').value);
+            let crazyVal = parseFloat(document.getElementById('crazyInput').value);
+            
+            // Constrain values between 0 and 10 to keep the chart clean
+            hotVal = Math.max(0, Math.min(10, hotVal));
+            crazyVal = Math.max(0, Math.min(10, crazyVal));
+            
+            // Update Addy's data point and re-render
+            hotCrazyChart.data.datasets[0].data[0] = { x: hotVal, y: crazyVal };
+            hotCrazyChart.update();
+        }
+    </script>
+</body>
+</html>
