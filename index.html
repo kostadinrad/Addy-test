@@ -7,58 +7,120 @@
     <!-- Include Chart.js via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            max-width: 800px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            text-align: center; 
-            background-color: #fafafa;
-            color: #333;
+        /* Dark Mode Color Palette & Fonts */
+        :root {
+            --bg-main: #0f172a;       /* Deep slate background */
+            --bg-card: #1e293b;       /* Lighter slate for cards */
+            --text-main: #f8fafc;     /* Off-white text */
+            --text-muted: #94a3b8;    /* Muted gray text */
+            --accent-pink: #f43f5e;   /* Neon rose */
+            --accent-cyan: #06b6d4;   /* Neon cyan */
+            --border-color: #334155;  /* Subtle dark border */
         }
+
+        body { 
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 850px; 
+            margin: 0 auto; 
+            padding: 30px 20px; 
+            text-align: center; 
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(45deg, var(--accent-pink), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .description { 
             text-align: left; 
-            margin: 20px 0; 
-            line-height: 1.6; 
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 30px 0; 
+            line-height: 1.7; 
+            background: var(--bg-card);
+            padding: 25px 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
+        
+        .description h3 {
+            margin-top: 0;
+            color: var(--accent-cyan);
+        }
+
+        .description p {
+            color: var(--text-muted);
+        }
+
         .controls { 
             margin: 20px 0; 
             padding: 20px; 
-            background: #fff; 
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            background: var(--bg-card); 
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
+
+        label {
+            font-size: 1.1em;
+            color: var(--text-main);
+        }
+
         input { 
-            margin: 0 15px 0 5px; 
-            padding: 8px; 
-            width: 60px; 
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 10px; 
+            width: 70px; 
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1em;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
         }
+
+        input:focus {
+            border-color: var(--accent-pink);
+        }
+
         button { 
-            padding: 10px 20px; 
+            padding: 12px 25px; 
             cursor: pointer; 
-            background: #007bff; 
+            background: linear-gradient(135deg, var(--accent-pink), #e11d48); 
             color: white; 
             border: none; 
-            border-radius: 4px; 
+            border-radius: 6px; 
+            font-size: 1.05em;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
+
         button:hover { 
-            background: #0056b3; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 63, 94, 0.6);
         }
+
         .chart-container { 
             position: relative; 
-            height: 400px; 
+            height: 450px; 
             width: 100%; 
-            background: #fff;
+            background: var(--bg-card);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             box-sizing: border-box;
         }
     </style>
@@ -67,31 +129,31 @@
 
     <h1>Addy's Hot-Crazy Matrix</h1>
     
-<div class="description">
-    <h3>Addy: A Completely Fictional Story</h3>
-    <p>
-        Addy is the kind of person who walks into a room like she already owns the soundtrack. 
-        She’s bold, magnetic, and impossible to ignore, which is why her “Hot” score is always a topic of discussion. 
-        Whether she’s showing up late in a leather jacket or smiling like she knows a secret nobody else does, Addy has a way of turning ordinary moments into unforgettable ones.
-    </p>
-    <p>
-        But Addy also has a chaotic side. 
-        She once planned a weekend road trip at 2 a.m., changed the destination three times before sunrise, and somehow still convinced everyone it was genius. 
-        Her “Crazy” score doesn’t come from danger, but from her wild energy, impulsive decisions, and total refusal to live a boring life.
-    </p>
-    <p>
-        On this chart, Addy’s position shifts depending on the mood of the story. 
-        Some days she’s charmingly unpredictable, and other days she’s a whirlwind of confidence, drama, and last-minute ideas. 
-        Use the controls below to decide where fictional Addy belongs on the Hot-Crazy Matrix today.
-    </p>
-</div>
+    <div class="description">
+        <h3>Addy: A Completely Fictional Story</h3>
+        <p>
+            Addy is the kind of person who walks into a room like she already owns the soundtrack. 
+            She’s bold, magnetic, and impossible to ignore, which is why her “Hot” score is always a topic of discussion. 
+            Whether she’s showing up late in a leather jacket or smiling like she knows a secret nobody else does, Addy has a way of turning ordinary moments into unforgettable ones.
+        </p>
+        <p>
+            But Addy also has a chaotic side. 
+            She once planned a weekend road trip at 2 a.m., changed the destination three times before sunrise, and somehow still convinced everyone it was genius. 
+            Her “Crazy” score doesn’t come from danger, but from her wild energy, impulsive decisions, and total refusal to live a boring life.
+        </p>
+        <p>
+            On this chart, Addy’s position shifts depending on the mood of the story. 
+            Some days she’s charmingly unpredictable, and other days she’s a whirlwind of confidence, drama, and last-minute ideas. 
+            Use the controls below to decide where fictional Addy belongs on the Hot-Crazy Matrix today.
+        </p>
+    </div>
 
     <div class="controls">
         <label for="hotInput"><strong>Hot</strong> (0-10):</label>
-        <input type="number" id="hotInput" min="0" max="10" step="0.5" value="8">
+        <input type="number" id="hotInput" min="0" max="10" step="0.5" value="8.5">
 
         <label for="crazyInput"><strong>Crazy</strong> (0-10):</label>
-        <input type="number" id="crazyInput" min="0" max="10" step="0.5" value="5">
+        <input type="number" id="crazyInput" min="0" max="10" step="0.5" value="6">
 
         <button onclick="updateChart()">Plot Addy</button>
     </div>
@@ -101,6 +163,10 @@
     </div>
 
     <script>
+        // Set global Chart.js defaults for Dark Mode
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+
         const ctx = document.getElementById('hotCrazyChart').getContext('2d');
         
         // Initialize the Chart.js scatter plot
@@ -110,18 +176,20 @@
                 datasets: [
                     {
                         label: 'Addy',
-                        data: [{ x: 8, y: 5 }],
-                        backgroundColor: '#ff0055',
-                        pointRadius: 10,
-                        pointHoverRadius: 13
+                        data: [{ x: 8.5, y: 6 }],
+                        backgroundColor: '#f43f5e', // Neon Rose
+                        borderColor: '#ffffff',     // White border to make it pop
+                        borderWidth: 2,
+                        pointRadius: 12,            // Larger point
+                        pointHoverRadius: 16
                     },
                     {
                         label: 'The "Equilibrium" Diagonal',
                         data: [{ x: 0, y: 0 }, { x: 10, y: 10 }],
                         type: 'line',
-                        borderColor: '#007bff',
-                        borderWidth: 2,
-                        borderDash: [5, 5], // Makes the line dashed
+                        borderColor: '#06b6d4',     // Neon Cyan
+                        borderWidth: 3,
+                        borderDash: [8, 6],         // Styled dashed line
                         fill: false,
                         pointRadius: 0,
                         pointHoverRadius: 0
@@ -131,23 +199,58 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 800,
+                    easing: 'easeOutQuart'
+                },
                 scales: {
                     x: {
                         type: 'linear',
                         position: 'bottom',
-                        title: { display: true, text: 'Hot Scale (0 - 10)', font: { size: 14, weight: 'bold' } },
+                        title: { 
+                            display: true, 
+                            text: 'Hot Scale (0 - 10)', 
+                            font: { size: 15, weight: 'bold' },
+                            color: '#f8fafc' 
+                        },
                         min: 0,
-                        max: 10
+                        max: 10,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)', // Faint white gridlines
+                            borderColor: 'rgba(255, 255, 255, 0.1)'
+                        }
                     },
                     y: {
                         type: 'linear',
-                        title: { display: true, text: 'Crazy Scale (0 - 10)', font: { size: 14, weight: 'bold' } },
+                        title: { 
+                            display: true, 
+                            text: 'Crazy Scale (0 - 10)', 
+                            font: { size: 15, weight: 'bold' },
+                            color: '#f8fafc'
+                        },
                         min: 0,
-                        max: 10
+                        max: 10,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)',
+                            borderColor: 'rgba(255, 255, 255, 0.1)'
+                        }
                     }
                 },
                 plugins: {
+                    legend: {
+                        labels: {
+                            color: '#e2e8f0',
+                            font: { size: 13 }
+                        }
+                    },
                     tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)', // Dark tooltip bg
+                        titleColor: '#fff',
+                        bodyColor: '#e2e8f0',
+                        borderColor: '#334155',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: true,
                         callbacks: {
                             label: function(context) {
                                 if (context.datasetIndex === 0) {
@@ -171,7 +274,11 @@
             hotVal = Math.max(0, Math.min(10, hotVal));
             crazyVal = Math.max(0, Math.min(10, crazyVal));
             
-            // Update Addy's data point and re-render
+            // Update inputs visually just in case they typed > 10 or < 0
+            document.getElementById('hotInput').value = hotVal;
+            document.getElementById('crazyInput').value = crazyVal;
+
+            // Update Addy's data point and re-render with animation
             hotCrazyChart.data.datasets[0].data[0] = { x: hotVal, y: crazyVal };
             hotCrazyChart.update();
         }
